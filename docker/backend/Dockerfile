@@ -29,6 +29,7 @@ RUN composer require \
     spatie/laravel-medialibrary:^11.0 \
     spatie/laravel-sluggable:^3.6 \
     spatie/laravel-permission:^6.7 \
+    resend/resend-laravel \
     --no-interaction --prefer-dist
 
 # Verify artisan exists before copying our files

@@ -22,11 +22,6 @@ services:
       TURNSTILE_SECRET_KEY: "${TURNSTILE_SECRET_KEY}"
       SESSION_DRIVER: cookie
       MAIL_MAILER: "${MAIL_MAILER}"
-      MAIL_HOST: "${MAIL_HOST}"
-      MAIL_PORT: "${MAIL_PORT}"
-      MAIL_USERNAME: "${MAIL_USERNAME}"
-      MAIL_PASSWORD: "${MAIL_PASSWORD}"
-      MAIL_ENCRYPTION: tls
-      MAIL_TIMEOUT: "5"
+      RESEND_KEY: "${RESEND_KEY}"
       MAIL_FROM_ADDRESS: "info@medcina.mv"
       MAIL_FROM_NAME: "Medcina Pvt Ltd"

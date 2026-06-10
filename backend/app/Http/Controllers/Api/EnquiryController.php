@@ -41,7 +41,7 @@ class EnquiryController extends Controller
 
         try {
             Mail::to('info@medcina.mv')->send(new EnquiryReceived($enquiry));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::error('Enquiry notification email failed: ' . $e->getMessage());
         }
 

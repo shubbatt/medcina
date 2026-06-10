@@ -24,5 +24,6 @@ services:
       MAIL_USERNAME: "${MAIL_USERNAME}"
       MAIL_PASSWORD: "${MAIL_PASSWORD}"
       MAIL_ENCRYPTION: tls
+      MAIL_TIMEOUT: "10"
       MAIL_FROM_ADDRESS: "info@medcina.mv"
       MAIL_FROM_NAME: "Medcina Pvt Ltd"

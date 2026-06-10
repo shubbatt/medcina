@@ -17,7 +17,7 @@ class EnquiryController extends Controller
         $data = $request->validated();
 
         $turnstile = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
-            'secret'   => env('TURNSTILE_SECRET_KEY'),
+            'secret'   => config('services.turnstile.secret'),
             'response' => $data['turnstile_token'],
             'remoteip' => $request->ip(),
         ]);

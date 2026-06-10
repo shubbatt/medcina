@@ -48,6 +48,7 @@ COPY database/migrations/       database/migrations/
 COPY database/seeders/          database/seeders/
 COPY routes/api.php             routes/api.php
 COPY config/cors.php            config/cors.php
+COPY config/services.php        config/services.php
 COPY .env                       .env
 
 COPY entrypoint.sh /entrypoint.sh

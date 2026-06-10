@@ -18,4 +18,3 @@ services:
       APP_KEY: "${APP_KEY}"
       TURNSTILE_SECRET_KEY: "${TURNSTILE_SECRET_KEY}"
       SESSION_DRIVER: cookie
-      SESSION_SECURE_COOKIE: "true"

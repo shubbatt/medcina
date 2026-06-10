@@ -15,4 +15,5 @@ services:
       APP_DEBUG: "false"
       APP_URL: https://api.medcina.mv
       FRONTEND_URL: https://medcina.mv
+      APP_KEY: "${APP_KEY}"
       TURNSTILE_SECRET_KEY: "${TURNSTILE_SECRET_KEY}"

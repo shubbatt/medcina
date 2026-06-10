@@ -7,9 +7,14 @@ echo "=== Medcina Backend Starting ==="
 echo "Working dir: $(pwd)"
 echo "Artisan: $(ls artisan 2>/dev/null && echo 'found' || echo 'MISSING')"
 
-# Generate app key if missing
-echo "[1/5] Generating APP_KEY..."
-php artisan key:generate --force
+# Generate app key only if not provided via environment
+echo "[1/5] Checking APP_KEY..."
+if [ -z "$APP_KEY" ]; then
+    echo "  No APP_KEY set — generating one..."
+    php artisan key:generate --force
+else
+    echo "  APP_KEY provided via environment."
+fi
 
 # Wait for MySQL
 echo "[2/5] Waiting for MySQL..."

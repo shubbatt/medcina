@@ -7,7 +7,9 @@ use App\Http\Requests\StoreEnquiryRequest;
 use App\Models\Enquiry;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
+use App\Mail\EnquiryReceived;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class EnquiryController extends Controller
@@ -37,8 +39,11 @@ class EnquiryController extends Controller
 
         $enquiry = Enquiry::create(array_merge($data, ['status' => 'new']));
 
-        // TODO: Send notification email to Medcina
-        // Mail::to(config('mail.from.address'))->send(new EnquiryReceived($enquiry));
+        try {
+            Mail::to('info@medcina.mv')->send(new EnquiryReceived($enquiry));
+        } catch (\Exception $e) {
+            Log::error('Enquiry notification email failed: ' . $e->getMessage());
+        }
 
         return response()->json([
             'message' => 'Your enquiry has been received. We will contact you within 1–2 business days.',

@@ -36,6 +36,7 @@ RUN test -f artisan && echo "artisan OK"
 
 # Copy our custom files on top
 COPY app/Models/                app/Models/
+COPY app/Mail/                  app/Mail/
 COPY app/Http/Controllers/      app/Http/Controllers/
 COPY app/Http/Requests/         app/Http/Requests/
 COPY app/Http/Resources/        app/Http/Resources/

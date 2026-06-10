@@ -1,0 +1,26 @@
+# Laravel
+backend/.env
+backend/vendor/
+backend/node_modules/
+backend/storage/app/public/*
+backend/storage/logs/*
+backend/bootstrap/cache/*
+backend/.phpunit.result.cache
+
+# Next.js
+frontend/.env.local
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Docker
+docker/mysql/data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

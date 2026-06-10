@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEnquiryRequest;
 use App\Models\Enquiry;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class EnquiryController extends Controller
@@ -14,6 +15,18 @@ class EnquiryController extends Controller
     public function store(StoreEnquiryRequest $request): JsonResponse
     {
         $data = $request->validated();
+
+        $turnstile = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            'secret'   => env('TURNSTILE_SECRET_KEY'),
+            'response' => $data['turnstile_token'],
+            'remoteip' => $request->ip(),
+        ]);
+
+        if (!$turnstile->json('success')) {
+            return response()->json(['message' => 'Security check failed. Please refresh and try again.'], 422);
+        }
+
+        unset($data['turnstile_token']);
 
         // Resolve product_id from slug if provided
         if (!empty($data['product_slug'])) {

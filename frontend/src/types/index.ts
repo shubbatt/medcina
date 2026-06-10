@@ -72,6 +72,7 @@ export interface EnquiryFormData {
   subject: string;
   message: string;
   product_id?: number;
+  turnstile_token?: string;
 }
 
 export interface ContactFormData {

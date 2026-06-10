@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { submitEnquiry } from '@/lib/api';
 import type { EnquiryFormData } from '@/types';
 
@@ -24,6 +25,7 @@ export default function ContactForm() {
   const productName = searchParams.get('product_name');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<EnquiryFormData>({
     resolver: zodResolver(enquirySchema),
@@ -34,12 +36,17 @@ export default function ContactForm() {
   });
 
   const onSubmit = async (data: EnquiryFormData) => {
+    if (!captchaToken) {
+      setError('Please complete the security check before submitting.');
+      return;
+    }
     try {
       setError('');
-      await submitEnquiry(data);
+      await submitEnquiry({ ...data, turnstile_token: captchaToken });
       setSubmitted(true);
     } catch {
       setError('Failed to send your enquiry. Please try again or call us directly.');
+      setCaptchaToken(null);
     }
   };
 
@@ -103,6 +110,14 @@ export default function ContactForm() {
         {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
       </div>
 
+      <Turnstile
+        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+        onSuccess={(token) => { setCaptchaToken(token); setError(''); }}
+        onExpire={() => setCaptchaToken(null)}
+        onError={() => { setCaptchaToken(null); setError('Security check failed. Please refresh and try again.'); }}
+        options={{ theme: 'light', size: 'normal' }}
+      />
+
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-600 text-sm">
           {error}
@@ -111,7 +126,7 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || !captchaToken}
         className="btn-primary w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {isSubmitting ? (
